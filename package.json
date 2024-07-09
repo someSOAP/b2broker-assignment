@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "workspaces": ["b2broker-nextjs", "b2broker-strapi"],
+  "scripts": {
+    "b2broker-nextjs": "yarn workspace b2broker-nextjs",
+    "b2broker-strapi": "yarn workspace b2broker-strapi",
+    "strapi:dev": "yarn b2broker-strapi develop",
+    "nextjs:dev": "yarn b2broker-nextjs dev",
+    "dev": "concurrently \"yarn strapi:dev\" \"yarn nextjs:dev\""
+  }
+}
