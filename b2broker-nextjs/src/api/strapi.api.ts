@@ -1,8 +1,9 @@
 import axios from 'axios'
+import { STRAPI_TOKEN, STRAPI_API_URL } from '@/constants'
 
 export const strapiApi = axios.create({
-  baseURL: 'http://127.0.0.1:1337/api/',
+  baseURL: STRAPI_API_URL,
   headers: {
-    Authorization: `Bearer  ${process.env.STRAPI_TOKEN}`,
+    Authorization: `Bearer  ${STRAPI_TOKEN}`,
   },
 })

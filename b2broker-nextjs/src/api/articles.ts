@@ -5,5 +5,5 @@ export const getArticles = () => {
 }
 
 export const getOneArticle = (id: number) => {
-  return strapiApi.get(`/articles/${id}`)
+  return strapiApi.get(`/articles/${id}?populate[0]=image`)
 }

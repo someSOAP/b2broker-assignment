@@ -1,7 +1,7 @@
-export interface Article {
+export interface ArticleTypes {
   id: 1
   attributes: {
-    title: 'First Article'
+    title: 'First ArticleTypes'
     body: ArticleBodyParagraph[]
     createdAt: string
     updatedAt: string
