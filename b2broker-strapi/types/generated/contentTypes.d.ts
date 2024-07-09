@@ -153,8 +153,8 @@ export interface AdminApiToken extends Schema.CollectionType {
   collectionName: 'strapi_api_tokens'
   info: {
     name: 'Api Token'
-    singularName: 'api-token'
-    pluralName: 'api-tokens'
+    singularName: 'server-api-token'
+    pluralName: 'server-api-tokens'
     displayName: 'Api Token'
     description: ''
   }
@@ -216,8 +216,8 @@ export interface AdminApiTokenPermission extends Schema.CollectionType {
   info: {
     name: 'API Token Permission'
     description: ''
-    singularName: 'api-token-permission'
-    pluralName: 'api-token-permissions'
+    singularName: 'server-api-token-permission'
+    pluralName: 'server-api-token-permissions'
     displayName: 'API Token Permission'
   }
   pluginOptions: {

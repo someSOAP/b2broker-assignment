@@ -1,11 +1,13 @@
-export interface ArticleTypes {
-  id: 1
-  attributes: {
-    title: 'First ArticleTypes'
-    body: ArticleBodyParagraph[]
-    createdAt: string
-    updatedAt: string
-    publishedAt: string
+import { StrapiEntity } from './strapi.types'
+import { ImageData } from './image.types'
+
+export type ArticleType = StrapiEntity<ArticleAttributes>
+
+interface ArticleAttributes {
+  title: string
+  body: ArticleBodyParagraph[]
+  image?: {
+    data: ImageData
   }
 }
 

@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { getArticles } from '@/api'
+import { getArticles } from '../server-api'
 
 const fetchArticles = async () => {
   const res = await getArticles()
@@ -8,8 +8,6 @@ const fetchArticles = async () => {
 
 export default async function Home() {
   const articles = await fetchArticles()
-
-  console.log(articles)
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">

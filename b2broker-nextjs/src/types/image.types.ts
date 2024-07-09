@@ -1,7 +1,6 @@
-export interface ImageData {
-  id: number
-  attributes: ImageAttributes
-}
+import { StrapiEntity } from './strapi.types'
+
+export type ImageData = StrapiEntity<ImageAttributes>
 
 export interface ImageAttributes {
   alternativeText: string | null
