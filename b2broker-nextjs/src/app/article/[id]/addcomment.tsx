@@ -6,6 +6,7 @@ import { useFormStatus } from 'react-dom'
 
 interface IAddCommentProps {
   articleId: number
+  onPosted(): void
 }
 
 const SubmitButton: FC = () => {
@@ -18,9 +19,14 @@ const SubmitButton: FC = () => {
   )
 }
 
-const AddComment: FC<IAddCommentProps> = ({ articleId }) => {
-  const handleAddComment = addComment.bind(null, articleId)
+const AddComment: FC<IAddCommentProps> = ({ articleId, onPosted }) => {
+  const addCommentBind = addComment.bind(null, articleId)
   const formRef = useRef<HTMLFormElement>(null)
+
+  const handleAddComment: typeof addCommentBind = async (...args) => {
+    await addCommentBind(...args)
+    onPosted()
+  }
 
   return (
     <form ref={formRef} action={handleAddComment}>
