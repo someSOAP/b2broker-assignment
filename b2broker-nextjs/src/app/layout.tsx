@@ -21,7 +21,9 @@ export default function RootLayout({
         <header>
           <Link href="/">B2B Broker</Link>
         </header>
-        {children}
+        <div id="root-layout" className="overflow-scroll pl-5 pr-5">
+          {children}
+        </div>
       </body>
     </html>
   )
