@@ -153,8 +153,8 @@ export interface AdminApiToken extends Schema.CollectionType {
   collectionName: 'strapi_api_tokens'
   info: {
     name: 'Api Token'
-    singularName: 'server-api-token'
-    pluralName: 'server-api-tokens'
+    singularName: 'api-token'
+    pluralName: 'api-tokens'
     displayName: 'Api Token'
     description: ''
   }
@@ -216,8 +216,8 @@ export interface AdminApiTokenPermission extends Schema.CollectionType {
   info: {
     name: 'API Token Permission'
     description: ''
-    singularName: 'server-api-token-permission'
-    pluralName: 'server-api-token-permissions'
+    singularName: 'api-token-permission'
+    pluralName: 'api-token-permissions'
     displayName: 'API Token Permission'
   }
   pluginOptions: {
@@ -353,6 +353,90 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
       Attribute.Private
     updatedBy: Attribute.Relation<
       'admin::transfer-token-permission',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private
+  }
+}
+
+export interface ApiArticleArticle extends Schema.CollectionType {
+  collectionName: 'articles'
+  info: {
+    singularName: 'article'
+    pluralName: 'articles'
+    displayName: 'Article'
+    description: ''
+  }
+  options: {
+    draftAndPublish: true
+  }
+  attributes: {
+    title: Attribute.String &
+      Attribute.Required &
+      Attribute.Unique &
+      Attribute.SetMinMaxLength<{
+        minLength: 5
+        maxLength: 64
+      }>
+    body: Attribute.Blocks & Attribute.Required
+    image: Attribute.Media<'images'> & Attribute.Required
+    comments: Attribute.Relation<
+      'api::article.article',
+      'oneToMany',
+      'api::comment.comment'
+    >
+    createdAt: Attribute.DateTime
+    updatedAt: Attribute.DateTime
+    publishedAt: Attribute.DateTime
+    createdBy: Attribute.Relation<
+      'api::article.article',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private
+    updatedBy: Attribute.Relation<
+      'api::article.article',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private
+  }
+}
+
+export interface ApiCommentComment extends Schema.CollectionType {
+  collectionName: 'comments'
+  info: {
+    singularName: 'comment'
+    pluralName: 'comments'
+    displayName: 'Comment'
+    description: ''
+  }
+  options: {
+    draftAndPublish: true
+  }
+  attributes: {
+    text: Attribute.String &
+      Attribute.SetMinMaxLength<{
+        minLength: 1
+        maxLength: 140
+      }>
+    article: Attribute.Relation<
+      'api::comment.comment',
+      'manyToOne',
+      'api::article.article'
+    >
+    createdAt: Attribute.DateTime
+    updatedAt: Attribute.DateTime
+    publishedAt: Attribute.DateTime
+    createdBy: Attribute.Relation<
+      'api::comment.comment',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private
+    updatedBy: Attribute.Relation<
+      'api::comment.comment',
       'oneToOne',
       'admin::user'
     > &
@@ -786,90 +870,6 @@ export interface PluginI18NLocale extends Schema.CollectionType {
   }
 }
 
-export interface ApiArticleArticle extends Schema.CollectionType {
-  collectionName: 'articles'
-  info: {
-    singularName: 'article'
-    pluralName: 'articles'
-    displayName: 'Article'
-    description: ''
-  }
-  options: {
-    draftAndPublish: true
-  }
-  attributes: {
-    title: Attribute.String &
-      Attribute.Required &
-      Attribute.Unique &
-      Attribute.SetMinMaxLength<{
-        minLength: 5
-        maxLength: 64
-      }>
-    body: Attribute.Blocks & Attribute.Required
-    image: Attribute.Media<'images'> & Attribute.Required
-    comments: Attribute.Relation<
-      'api::article.article',
-      'oneToMany',
-      'api::comment.comment'
-    >
-    createdAt: Attribute.DateTime
-    updatedAt: Attribute.DateTime
-    publishedAt: Attribute.DateTime
-    createdBy: Attribute.Relation<
-      'api::article.article',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private
-    updatedBy: Attribute.Relation<
-      'api::article.article',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private
-  }
-}
-
-export interface ApiCommentComment extends Schema.CollectionType {
-  collectionName: 'comments'
-  info: {
-    singularName: 'comment'
-    pluralName: 'comments'
-    displayName: 'Comment'
-    description: ''
-  }
-  options: {
-    draftAndPublish: true
-  }
-  attributes: {
-    text: Attribute.String &
-      Attribute.SetMinMaxLength<{
-        minLength: 1
-        maxLength: 140
-      }>
-    article: Attribute.Relation<
-      'api::comment.comment',
-      'manyToOne',
-      'api::article.article'
-    >
-    createdAt: Attribute.DateTime
-    updatedAt: Attribute.DateTime
-    publishedAt: Attribute.DateTime
-    createdBy: Attribute.Relation<
-      'api::comment.comment',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private
-    updatedBy: Attribute.Relation<
-      'api::comment.comment',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private
-  }
-}
-
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -880,6 +880,8 @@ declare module '@strapi/types' {
       'admin::api-token-permission': AdminApiTokenPermission
       'admin::transfer-token': AdminTransferToken
       'admin::transfer-token-permission': AdminTransferTokenPermission
+      'api::article.article': ApiArticleArticle
+      'api::comment.comment': ApiCommentComment
       'plugin::upload.file': PluginUploadFile
       'plugin::upload.folder': PluginUploadFolder
       'plugin::content-releases.release': PluginContentReleasesRelease
@@ -888,8 +890,6 @@ declare module '@strapi/types' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole
       'plugin::users-permissions.user': PluginUsersPermissionsUser
       'plugin::i18n.locale': PluginI18NLocale
-      'api::article.article': ApiArticleArticle
-      'api::comment.comment': ApiCommentComment
     }
   }
 }

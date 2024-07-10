@@ -1,26 +1,29 @@
-'use client'
-import React, { FC, useEffect } from 'react'
-import { getArticleComments } from '@/client-api'
+import React, { FC } from 'react'
+import { getCommentsByArticle } from '@/server-api'
 
 interface ICommentsProps {
   articleId: number
 }
 
-const Comments: FC<ICommentsProps> = ({ articleId }) => {
-  useEffect(() => {
-    let isIgnored = false
-    getArticleComments(articleId).then((res) => {
-      if (isIgnored) {
-        return
-      }
-      console.log(res)
-    })
-    return () => {
-      isIgnored = true
-    }
-  }, [])
+const fetchComments = async (articleId: number) => {
+  const res = await getCommentsByArticle(articleId)
+  return res.data
+}
 
-  return <div>{articleId}</div>
+const Comments: FC<ICommentsProps> = async ({ articleId }) => {
+  const comments = await fetchComments(articleId)
+
+  return (
+    <div>
+      {comments.data.map((it, index) => {
+        return (
+          <div key={it.id}>
+            {index + 1}) {it.attributes.text}
+          </div>
+        )
+      })}
+    </div>
+  )
 }
 
 export default Comments
