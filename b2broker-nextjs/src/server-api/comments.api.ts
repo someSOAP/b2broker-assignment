@@ -1,12 +1,27 @@
 import { strapiApi } from './strapi.api'
-import { StrapiResponse, CommentType } from '@/types'
+import { StrapiResponse, Comment } from '@/types'
 
-export const getCommentsByArticle = (articleId: number, page: number = 1) => {
-  return strapiApi.get<StrapiResponse<CommentType[]>>(`/comments/`, {
+export interface GetCommentsByArticleProps {
+  page: number
+  idGt: number
+  idGte: number
+  idLt: number
+  idLte: number
+}
+
+export const getCommentsByArticle = (
+  articleId: number,
+  params: Partial<GetCommentsByArticleProps> = {},
+) => {
+  return strapiApi.get<StrapiResponse<Comment[]>>(`/comments/`, {
     params: {
       'filters[article][$eq]': articleId,
       'sort[0]': 'updatedAt:desc',
-      'pagination[page]': page,
+      'pagination[page]': params.page || 1,
+      'filters[id][$gt]': params.idGt,
+      'filters[id][$gte]': params.idGte,
+      'filters[id][$lt]': params.idLt,
+      'filters[id][$lte]': params.idLte,
     },
   })
 }

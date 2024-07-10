@@ -8,7 +8,7 @@ import { addComment } from './actions'
 
 interface IAddCommentProps {
   articleId: number
-  onPosted(): void
+  onPosted(text: string): void
 }
 
 const SubmitButton: FC = () => {
@@ -25,9 +25,18 @@ const AddComment: FC<IAddCommentProps> = ({ articleId, onPosted }) => {
   const addCommentBind = addComment.bind(null, articleId)
   const formRef = useRef<HTMLFormElement>(null)
 
-  const handleAddComment: typeof addCommentBind = async (...args) => {
-    await addCommentBind(...args)
-    onPosted()
+  const handleAddComment: typeof addCommentBind = async (formData) => {
+    await addCommentBind(formData)
+
+    const text = formData.get('text')
+
+    formRef.current?.reset()
+
+    if (typeof text !== 'string') {
+      console.error('TEXT IF EMPTY')
+      return
+    }
+    onPosted(text)
   }
 
   return (
@@ -36,12 +45,7 @@ const AddComment: FC<IAddCommentProps> = ({ articleId, onPosted }) => {
       ref={formRef}
       action={handleAddComment}
     >
-      <Input
-        required
-        type="text"
-        name="text"
-        style={{ background: 'black', borderColor: 'gray', borderWidth: 1 }}
-      />
+      <Input required type="text" name="text" />
       <SubmitButton />
     </form>
   )

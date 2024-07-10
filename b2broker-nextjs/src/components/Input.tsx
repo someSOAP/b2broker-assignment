@@ -11,14 +11,7 @@ export const Input: FC<InputProps> = ({ className, ...props }) => {
     <input
       {...props}
       className={clsx(
-        'w-full rounded-[7px]',
-        'border border-blue-gray-200 outline outline-0',
-        'bg-transparent px-3 py-2.5',
-        'font-sans text-sm font-normal text-blue-gray-700',
-        'transition-all',
-        'placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200',
-        'focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0',
-        'disabled:border-0 disabled:bg-blue-gray-50',
+        'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
         className,
       )}
     />

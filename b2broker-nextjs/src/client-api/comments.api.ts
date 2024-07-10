@@ -1,11 +1,16 @@
 import { clientApi } from './client.api'
-import { CommentType, StrapiResponse } from '@/types'
+import type { GetCommentsByArticleProps } from '@/server-api/comments.api'
+import { Comment, StrapiResponse } from '@/types'
 
-export const getArticleComments = (articleId: number, page?: number) => {
-  return clientApi.get<StrapiResponse<CommentType[]>>('/article/comments', {
+export const getArticleComments = (
+  articleId: number,
+  params: Partial<GetCommentsByArticleProps> = {},
+) => {
+  return clientApi.get<StrapiResponse<Comment[]>>('/article/comments', {
     params: {
       id: articleId,
-      page,
+      page: params.page || 1,
+      ...params,
     },
   })
 }

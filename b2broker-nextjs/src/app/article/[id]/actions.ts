@@ -10,5 +10,6 @@ export const addComment = async (articleId: number, formData: FormData) => {
     return
   }
   const res = await postComment(articleId, text)
-  revalidatePath(`/articles/${articleId}`)
+
+  return res.data
 }
