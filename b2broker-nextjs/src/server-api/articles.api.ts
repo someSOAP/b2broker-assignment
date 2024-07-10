@@ -1,9 +1,16 @@
-import { strapiApi } from './strapi.api'
-import { StrapiResponse } from '@/types/strapi.types'
-import { ArticleType } from '@/types'
+import { PAGE_LENGTH } from '@/constants'
 
-export const getArticles = () => {
-  return strapiApi.get<StrapiResponse<ArticleType[]>>('/articles')
+import type { ArticleType, StrapiResponse } from '@/types'
+
+import { strapiApi } from './strapi.api'
+
+export const getArticles = (page?: number) => {
+  return strapiApi.get<StrapiResponse<ArticleType[]>>('/articles', {
+    params: {
+      'pagination[page]': page || 1,
+      'pagination[pageSize]': PAGE_LENGTH,
+    },
+  })
 }
 
 export const getOneArticle = (id: number) => {

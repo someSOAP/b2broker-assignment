@@ -2,14 +2,18 @@ import { getOneArticle } from '@/server-api'
 import { getImageUrl } from '@/utils'
 
 import Comments from './comments'
+import { NextPageProps } from '@/types'
+import { FC } from 'react'
 
 const fetchArticle = async (id: number) => {
   const res = await getOneArticle(id)
   return res.data.data
 }
 
-export default async function Page(props: any) {
-  const articleId = props.params.id
+type ArticlePageProps = NextPageProps<'id' | 'wow'>
+
+const ArticlePage: FC<ArticlePageProps> = async (props) => {
+  const articleId = Number(props.params.id)
   const article = await fetchArticle(articleId)
   const { title, image, body } = article.attributes
 
@@ -28,3 +32,5 @@ export default async function Page(props: any) {
     </div>
   )
 }
+
+export default ArticlePage

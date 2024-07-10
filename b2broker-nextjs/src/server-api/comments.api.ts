@@ -1,5 +1,6 @@
 import { strapiApi } from './strapi.api'
 import { StrapiResponse, Comment } from '@/types'
+import { PAGE_LENGTH } from '@/constants'
 
 export interface GetCommentsByArticleProps {
   page: number
@@ -22,6 +23,7 @@ export const getCommentsByArticle = (
       'filters[id][$gte]': params.idGte,
       'filters[id][$lt]': params.idLt,
       'filters[id][$lte]': params.idLte,
+      'pagination[pageSize]': PAGE_LENGTH,
     },
   })
 }
