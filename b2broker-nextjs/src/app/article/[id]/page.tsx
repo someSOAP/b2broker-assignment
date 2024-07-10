@@ -18,7 +18,7 @@ const ArticlePage: FC<ArticlePageProps> = async (props) => {
   const { title, image, body } = article.attributes
 
   return (
-    <div>
+    <div id="scroll-layout" className="overflow-scroll">
       <main>
         <h1>{title}</h1>
         {image && <img src={getImageUrl(image.data)} alt="" />}

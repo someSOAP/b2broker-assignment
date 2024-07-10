@@ -9,6 +9,7 @@ export const getArticles = (page?: number) => {
     params: {
       'pagination[page]': page || 1,
       'pagination[pageSize]': PAGE_LENGTH,
+      'populate[0]': 'image',
     },
   })
 }

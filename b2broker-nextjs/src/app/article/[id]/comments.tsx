@@ -4,7 +4,7 @@ import React, { FC, useEffect, useState, useRef } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 
 import { getArticleComments } from '@/client-api'
-import { Comment } from '@/types'
+import { CommentType } from '@/types'
 
 interface ICommentsProps {
   articleId: number
@@ -23,7 +23,7 @@ const Comments: FC<ICommentsProps> = ({ articleId }) => {
   const page = useRef(1)
   const minId = useRef(Infinity)
   const maxId = useRef(-Infinity)
-  const [comments, setComments] = useState<Comment[]>([])
+  const [comments, setComments] = useState<CommentType[]>([])
   const [hasMore, setHasMore] = useState(true)
 
   const updateComments = () => {
@@ -74,7 +74,7 @@ const Comments: FC<ICommentsProps> = ({ articleId }) => {
     <div>
       <AddComment onPosted={updateComments} articleId={articleId} />
       <InfiniteScroll
-        scrollableTarget="root-layout"
+        scrollableTarget="scroll-layout"
         dataLength={25}
         loader={<div>LOADING</div>}
         hasMore={hasMore}

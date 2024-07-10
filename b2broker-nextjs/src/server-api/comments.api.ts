@@ -1,5 +1,5 @@
 import { strapiApi } from './strapi.api'
-import { StrapiResponse, Comment } from '@/types'
+import { StrapiResponse, CommentType } from '@/types'
 import { PAGE_LENGTH } from '@/constants'
 
 export interface GetCommentsByArticleProps {
@@ -14,7 +14,7 @@ export const getCommentsByArticle = (
   articleId: number,
   params: Partial<GetCommentsByArticleProps> = {},
 ) => {
-  return strapiApi.get<StrapiResponse<Comment[]>>(`/comments/`, {
+  return strapiApi.get<StrapiResponse<CommentType[]>>(`/comments/`, {
     params: {
       'filters[article][$eq]': articleId,
       'sort[0]': 'updatedAt:desc',
