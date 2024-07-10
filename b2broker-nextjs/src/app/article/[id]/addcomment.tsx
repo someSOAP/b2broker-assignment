@@ -1,8 +1,10 @@
 'use client'
 import React, { FC, useRef } from 'react'
+import { useFormStatus } from 'react-dom'
+
+import { Button, Input } from '@/components'
 
 import { addComment } from './actions'
-import { useFormStatus } from 'react-dom'
 
 interface IAddCommentProps {
   articleId: number
@@ -13,9 +15,9 @@ const SubmitButton: FC = () => {
   const { pending } = useFormStatus()
 
   return (
-    <button type="submit" disabled={pending}>
+    <Button type="submit" disabled={pending}>
       Add Comment
-    </button>
+    </Button>
   )
 }
 
@@ -29,18 +31,18 @@ const AddComment: FC<IAddCommentProps> = ({ articleId, onPosted }) => {
   }
 
   return (
-    <form ref={formRef} action={handleAddComment}>
-      <div
-        style={{ padding: 30, display: 'flex', flexDirection: 'row', gap: 20 }}
-      >
-        <input
-          required
-          type="text"
-          name="text"
-          style={{ background: 'black', borderColor: 'gray', borderWidth: 1 }}
-        />
-        <SubmitButton />
-      </div>
+    <form
+      className="flex flex-row gap-5 py-10"
+      ref={formRef}
+      action={handleAddComment}
+    >
+      <Input
+        required
+        type="text"
+        name="text"
+        style={{ background: 'black', borderColor: 'gray', borderWidth: 1 }}
+      />
+      <SubmitButton />
     </form>
   )
 }
