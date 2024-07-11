@@ -1,17 +1,17 @@
 'use client'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { FC, useEffect, useRef, useState } from 'react'
 
 import { getArticleComments } from '@/client-api'
 
-import type { CommentType, NextPageProps } from '@/types'
+import type { CommentType } from '@/types'
 
 import AddComment from './addcomment'
 
-export type CommentsSlotProps = NextPageProps<'id'>
+interface CommentsProps {
+  articleId: number
+}
 
-const CommentsSlot = (props: CommentsSlotProps) => {
-  const articleId = Number(props?.params.id)
-
+const CommentsSlot: FC<CommentsProps> = ({ articleId }) => {
   const minId = useRef<number | undefined>(undefined)
   const maxId = useRef<number | undefined>(undefined)
   const [comments, setComments] = useState<CommentType[]>([])
@@ -70,11 +70,12 @@ const CommentsSlot = (props: CommentsSlotProps) => {
       ignore = true
     }
   }, [])
-
   return (
     <div>
       {!isEndReached && (
-        <button onClick={fetchPrevComments}>Load prev comments</button>
+        <button key="load-prev" onClick={fetchPrevComments}>
+          Load prev comments
+        </button>
       )}
       <div key="comments-wrapper" className="flex flex-col-reverse ">
         {comments.map((it, index) => {

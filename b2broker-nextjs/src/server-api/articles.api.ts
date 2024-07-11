@@ -1,4 +1,4 @@
-import { PAGE_LENGTH } from '@/constants'
+import { PAGE_LENGTH, STRAPI_API_URL, STRAPI_TOKEN } from '@/constants'
 
 import type { ArticleType, StrapiResponse } from '@/types'
 
@@ -15,7 +15,7 @@ export const getArticles = (lastId?: number) => {
   })
 }
 
-export const getOneArticle = (id: number) => {
+export const getOneArticle = async (id: number) => {
   return strapiApi.get<StrapiResponse<ArticleType>>(`/articles/${id}`, {
     params: {
       'populate[0]': 'image',
