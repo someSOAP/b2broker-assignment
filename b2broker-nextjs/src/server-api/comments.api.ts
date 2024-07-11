@@ -17,7 +17,7 @@ export const getCommentsByArticle = (
   return strapiApi.get<StrapiResponse<CommentType[]>>(`/comments/`, {
     params: {
       'filters[article][$eq]': articleId,
-      'sort[0]': 'updatedAt:desc',
+      'sort[0]': 'createdAt:desc',
       'pagination[page]': params.page || 1,
       'filters[id][$gt]': params.idGt,
       'filters[id][$gte]': params.idGte,

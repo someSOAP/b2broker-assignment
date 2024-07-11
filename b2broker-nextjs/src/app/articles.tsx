@@ -6,19 +6,14 @@ import { getArticles } from '@/client-api'
 
 export interface TestProps {
   articles: ArticleType[]
-  initialPage: number
-  pagesAmount: number
 }
 
-export const Articles: FC<TestProps> = ({
-  articles: initialArticles,
-  initialPage,
-  pagesAmount,
-}) => {
+export const Articles: FC<TestProps> = ({ articles: initialArticles }) => {
   const [articles, setArticles] = useState(initialArticles)
   const scrollRef = useRef<HTMLElement>(null)
-  const pageRef = useRef(initialPage)
+  const lastIdRef = useRef(articles[articles.length - 1].id)
   const isFetching = useRef(false)
+  const finalArticleReached = useRef(false)
 
   useEffect(() => {
     console.log(scrollRef.current)
@@ -31,7 +26,7 @@ export const Articles: FC<TestProps> = ({
     const onScroll = (evt: Event) => {
       console.log(evt)
 
-      if (isFetching.current) {
+      if (finalArticleReached.current || isFetching.current) {
         return
       }
 
@@ -39,23 +34,26 @@ export const Articles: FC<TestProps> = ({
         scrollElement.scrollTop + scrollElement.clientHeight ===
         scrollElement.scrollHeight
 
-      if (isBottomReached) {
-        isFetching.current = true
-        pageRef.current += 1
-        getArticles(pageRef.current)
-          .then((res) => {
-            if (!res.data.data.length) {
-              pageRef.current -= 1
-              return
-            }
-            setArticles((prevState) => {
-              return [...prevState, ...res.data.data]
-            })
-          })
-          .finally(() => {
-            isFetching.current = false
-          })
+      if (!isBottomReached) {
+        return
       }
+
+      isFetching.current = true
+      getArticles(lastIdRef.current)
+        .then((res) => {
+          const newArticles = res.data.data
+          if (!newArticles.length) {
+            finalArticleReached.current = true
+            return
+          }
+          lastIdRef.current = newArticles[newArticles.length - 1].id
+          setArticles((prevState) => {
+            return [...prevState, ...res.data.data]
+          })
+        })
+        .finally(() => {
+          isFetching.current = false
+        })
     }
 
     scrollElement.addEventListener('scroll', onScroll)

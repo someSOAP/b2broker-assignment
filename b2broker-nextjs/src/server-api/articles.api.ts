@@ -4,11 +4,12 @@ import type { ArticleType, StrapiResponse } from '@/types'
 
 import { strapiApi } from './strapi.api'
 
-export const getArticles = (page?: number) => {
+export const getArticles = (lastId?: number) => {
   return strapiApi.get<StrapiResponse<ArticleType[]>>('/articles', {
     params: {
-      'pagination[page]': page || 1,
+      'sort[0]': 'createdAt:desc',
       'pagination[pageSize]': PAGE_LENGTH,
+      'filters[id][$lt]': lastId,
       'populate[0]': 'image',
     },
   })

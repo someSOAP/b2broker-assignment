@@ -4,9 +4,10 @@ import { getArticles } from '@/server-api'
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
-  const page = searchParams.get('page')
+  const lastIdQuery = searchParams.get('lastId')
 
-  const comments = await getArticles(Number(page || 1))
+  const lastId = Number(lastIdQuery) || undefined
+  const comments = await getArticles(lastId)
 
   return Response.json(comments.data)
 }
