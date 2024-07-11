@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import { getArticles } from '@/server-api'
+import { getArticles } from '@/strapi-api'
 import type { NextPageProps } from '@/types'
 
 import { Articles } from './articles'

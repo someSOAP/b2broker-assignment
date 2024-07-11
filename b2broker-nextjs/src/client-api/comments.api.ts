@@ -1,5 +1,5 @@
 import { clientApi } from './client.api'
-import type { GetCommentsByArticleProps } from '@/server-api/comments.api'
+import type { GetCommentsByArticleProps } from '@/strapi-api/comments.api'
 import { CommentType, StrapiResponse } from '@/types'
 
 export const getArticleComments = (

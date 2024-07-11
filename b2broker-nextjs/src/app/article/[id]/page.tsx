@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { notFound } from 'next/navigation'
 import dynamic from 'next/dynamic'
 
-import { getOneArticle } from '@/server-api'
+import { getOneArticle } from '@/strapi-api'
 import { getImageUrl } from '@/utils'
 
 import type { NextPageProps } from '@/types'
@@ -36,7 +36,7 @@ const ArticlePage: FC<ArticlePageProps> = async (props) => {
     image?.data.attributes.alternativeText ?? image?.data.attributes.name
 
   return (
-    <main className="flex flex-col max max-w-screen-md m-auto bg-white py-5">
+    <main className="flex flex-col max max-w-screen-md m-auto bg-white py-5 my-4">
       <h1 className="text-4xl font-semibold my-2 px-2 sm:px-4">{title}</h1>
       {image && (
         <img

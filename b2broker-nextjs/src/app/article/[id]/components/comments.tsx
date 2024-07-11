@@ -1,93 +1,38 @@
 'use client'
-import React, { FC, useEffect, useRef, useState } from 'react'
+import React, { FC } from 'react'
 
-import { getArticleComments } from '@/client-api'
 import { CommentInput, Comment } from '@/components'
-import type { CommentType } from '@/types'
 
-import { addComment } from './actions'
+import { useArticleComments } from '@/hooks'
 
 interface CommentsProps {
   articleId: number
 }
 
 const CommentsSlot: FC<CommentsProps> = ({ articleId }) => {
-  const minId = useRef<number | undefined>(undefined)
-  const maxId = useRef<number | undefined>(undefined)
-  const [comments, setComments] = useState<CommentType[]>([])
-  const [isLoading, setIsLoading] = useState(false)
-  const [isEndReached, setIsEndReached] = useState(false)
-
-  const updateComments = () => {
-    getArticleComments(articleId, { idGt: maxId.current }).then((res) => {
-      const newComments = res.data.data
-      if (!newComments.length) {
-        return
-      }
-      const [first] = newComments
-      maxId.current = first.id
-      setComments((prevState) => [...res.data.data, ...prevState])
-    })
-  }
-
-  const fetchPrevComments = () => {
-    setIsLoading(true)
-    getArticleComments(articleId, { idLt: minId.current })
-      .then((res) => {
-        setComments((prevState) => {
-          return [...prevState, ...res.data.data]
-        })
-      })
-      .finally(() => {
-        setIsLoading(false)
-      })
-  }
-
-  useEffect(() => {
-    let ignore = false
-    setIsLoading(true)
-    getArticleComments(articleId)
-      .then((res) => {
-        if (ignore) {
-          return
-        }
-        const comments = res.data.data
-        if (!comments.length) {
-          setIsEndReached(true)
-          return
-        }
-        const [first] = comments
-        const last = comments[comments.length - 1]
-        maxId.current = first.id
-        minId.current = last.id
-        setComments(res.data.data)
-      })
-      .finally(() => {
-        setIsLoading(false)
-      })
-
-    return () => {
-      ignore = true
-    }
-  }, [])
-
-  const handlePostComment = async (text: string) => {
-    const formData = new FormData()
-    formData.set('text', text)
-    await addComment(articleId, formData)
-    updateComments()
-  }
+  const {
+    handlePostComment,
+    fetchPrevComments,
+    comments,
+    isLoading,
+    isEndReached,
+  } = useArticleComments(articleId)
 
   return (
     <div>
       {!isEndReached && (
-        <button key="load-prev" onClick={fetchPrevComments}>
-          Load prev comments
+        <button
+          className="relative w-full py-4 grid place-items-center"
+          key="load-prev"
+          onClick={fetchPrevComments}
+        >
+          <div className="animate-pulse bg-green-500  absolute w-full h-full top-0" />
+          <div className="z-10">Load prev comments</div>
         </button>
       )}
       <div key="comments-wrapper" className="flex flex-col-reverse ">
-        {comments.map((it, index) => {
-          return <Comment comment={it} />
+        {comments.map((it) => {
+          return <Comment key={it.id} comment={it} />
         })}
       </div>
       <div className="px-4">

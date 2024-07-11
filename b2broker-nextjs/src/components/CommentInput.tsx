@@ -1,4 +1,4 @@
-import React, { FC, useRef } from 'react'
+import React, { FC, KeyboardEventHandler, memo, useRef } from 'react'
 
 import { Button, Input } from '@/components'
 
@@ -7,7 +7,7 @@ interface CommentInputProps {
   onPostComment(text: string): void
 }
 
-export const CommentInput: FC<CommentInputProps> = ({
+const CommentInputDummy: FC<CommentInputProps> = ({
   onPostComment,
   isDisabled,
 }) => {
@@ -29,14 +29,25 @@ export const CommentInput: FC<CommentInputProps> = ({
     onPostComment(text)
   }
 
+  const onKeyDown: KeyboardEventHandler<HTMLInputElement> = (ev) => {
+    if (ev.key !== 'Enter') {
+      return
+    }
+    handleAddComment()
+  }
+
   return (
     <div className="flex flex-row gap-5 py-10">
-      <Input ref={inputRef} type="text" name="text" />
+      <Input ref={inputRef} type="text" name="text" onKeyDown={onKeyDown} />
       <Button onClick={handleAddComment} type="submit" disabled={isDisabled}>
         Post Comment
       </Button>
     </div>
   )
 }
+
+export const CommentInput = memo(CommentInputDummy, (prevProps, nextProps) => {
+  return prevProps.isDisabled === nextProps.isDisabled
+})
 
 export default CommentInput

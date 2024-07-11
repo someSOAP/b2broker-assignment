@@ -1,4 +1,4 @@
-import { PAGE_LENGTH, STRAPI_API_URL, STRAPI_TOKEN } from '@/constants'
+import { PAGE_LENGTH } from '@/constants'
 
 import type { ArticleType, StrapiResponse } from '@/types'
 
