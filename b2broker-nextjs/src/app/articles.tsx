@@ -1,67 +1,39 @@
 'use client'
-import React, { FC, useEffect, useRef, useState } from 'react'
-import { ArticleType } from '@/types'
-import { ArticleItem } from '@/components'
+import React, { FC, useRef, useState } from 'react'
 import { getArticles } from '@/client-api'
+import { ArticleItem } from '@/components'
+import { useScrollBottom } from '@/hooks'
+import type { ArticleType } from '@/types'
 
-export interface TestProps {
+export interface ArticlesProps {
   articles: ArticleType[]
 }
 
-export const Articles: FC<TestProps> = ({ articles: initialArticles }) => {
+export const Articles: FC<ArticlesProps> = ({ articles: initialArticles }) => {
   const [articles, setArticles] = useState(initialArticles)
   const scrollRef = useRef<HTMLElement>(null)
   const lastIdRef = useRef(articles[articles.length - 1].id)
-  const isFetching = useRef(false)
-  const finalArticleReached = useRef(false)
+  const isFinalArticleReachedRef = useRef(false)
 
-  useEffect(() => {
-    console.log(scrollRef.current)
-
-    const scrollElement = scrollRef.current
-    if (!scrollElement) {
-      return
-    }
-
-    const onScroll = (evt: Event) => {
-      console.log(evt)
-
-      if (finalArticleReached.current || isFetching.current) {
+  useScrollBottom({
+    ref: scrollRef,
+    onScroll: async () => {
+      if (isFinalArticleReachedRef.current) {
         return
       }
+      const res = await getArticles(lastIdRef.current)
 
-      const isBottomReached =
-        scrollElement.scrollTop + scrollElement.clientHeight ===
-        scrollElement.scrollHeight
-
-      if (!isBottomReached) {
+      const newArticles = res.data.data
+      if (!newArticles.length) {
+        isFinalArticleReachedRef.current = true
         return
       }
-
-      isFetching.current = true
-      getArticles(lastIdRef.current)
-        .then((res) => {
-          const newArticles = res.data.data
-          if (!newArticles.length) {
-            finalArticleReached.current = true
-            return
-          }
-          lastIdRef.current = newArticles[newArticles.length - 1].id
-          setArticles((prevState) => {
-            return [...prevState, ...res.data.data]
-          })
-        })
-        .finally(() => {
-          isFetching.current = false
-        })
-    }
-
-    scrollElement.addEventListener('scroll', onScroll)
-
-    return () => {
-      scrollElement.removeEventListener('scroll', onScroll)
-    }
-  }, [])
+      lastIdRef.current = newArticles[newArticles.length - 1].id
+      setArticles((prevState) => {
+        return [...prevState, ...res.data.data]
+      })
+    },
+  })
 
   return (
     <main ref={scrollRef} className="flex-1 overflow-scroll">

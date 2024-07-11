@@ -1,14 +1,14 @@
-import { StrapiEntity } from './strapi.types'
-import { ImageData } from './image.types'
+import type { StrapiEntity, StrapiPopulatedProp } from './strapi.types'
+import type { ImageData } from './image.types'
+import type { CommentType } from './comment.types'
 
 export type ArticleType = StrapiEntity<ArticleAttributes>
 
 interface ArticleAttributes {
   title: string
   body: ArticleBodyParagraph[]
-  image?: {
-    data: ImageData
-  }
+  image?: StrapiPopulatedProp<ImageData>
+  comments?: StrapiPopulatedProp<CommentType[]>
 }
 
 interface ArticleBodyParagraph {

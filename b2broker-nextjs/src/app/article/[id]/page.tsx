@@ -1,9 +1,9 @@
+import { FC } from 'react'
+
 import { getOneArticle } from '@/server-api'
 import { getImageUrl } from '@/utils'
 
-import Comments from './comments'
-import { NextPageProps } from '@/types'
-import { FC } from 'react'
+import type { NextPageProps } from '@/types'
 
 const fetchArticle = async (id: number) => {
   const res = await getOneArticle(id)
@@ -18,18 +18,15 @@ const ArticlePage: FC<ArticlePageProps> = async (props) => {
   const { title, image, body } = article.attributes
 
   return (
-    <div id="scroll-layout" className="overflow-scroll">
-      <main>
-        <h1>{title}</h1>
-        {image && <img src={getImageUrl(image.data)} alt="" />}
-        {body.map((paragraph, index) => {
-          return (
-            <p key={index}>{paragraph.children.map((child) => child.text)}</p>
-          )
-        })}
-      </main>
-      <Comments key="comments" articleId={articleId} />
-    </div>
+    <main>
+      <h1>{title}</h1>
+      {image && <img src={getImageUrl(image.data)} alt="" />}
+      {body.map((paragraph, index) => {
+        return (
+          <p key={index}>{paragraph.children.map((child) => child.text)}</p>
+        )
+      })}
+    </main>
   )
 }
 

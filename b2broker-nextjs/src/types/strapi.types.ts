@@ -17,6 +17,10 @@ interface StrapiResponseMeta {
   pagination?: StrapiPaginationMeta
 }
 
+export interface StrapiPopulatedProp<Prop> {
+  data: Prop
+}
+
 export interface StrapiResponse<
   Data extends StrapiEntity<object> | StrapiEntity<object>[],
 > {

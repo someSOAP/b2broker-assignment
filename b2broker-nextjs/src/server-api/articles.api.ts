@@ -17,6 +17,8 @@ export const getArticles = (lastId?: number) => {
 
 export const getOneArticle = (id: number) => {
   return strapiApi.get<StrapiResponse<ArticleType>>(`/articles/${id}`, {
-    params: { 'populate[0]': 'image' },
+    params: {
+      'populate[0]': 'image',
+    },
   })
 }
