@@ -19,11 +19,13 @@ const HomePage: FC<NextPageProps> = async ({ searchParams }) => {
   const isEndReached = !data.length
 
   return (
-    <div className="flex flex-col flex-1 justify-between py-5 h-full">
+    <div className="flex flex-col flex-1 overflow-hidden">
       {!isEndReached && <Articles articles={data} />}
       {!isEndReached && (
         // https://developers.google.com/search/blog/2014/02/infinite-scroll-search-friendly
-        <a href={`/?lastId=${data[data.length - 1].id}`}>Load More</a>
+        <a className="sr-only" href={`/?lastId=${data[data.length - 1].id}`}>
+          Load More
+        </a>
       )}
     </div>
   )

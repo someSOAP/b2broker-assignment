@@ -36,7 +36,7 @@ export const Articles: FC<ArticlesProps> = ({ articles: initialArticles }) => {
   })
 
   return (
-    <main ref={scrollRef} className="flex-1 overflow-scroll">
+    <main ref={scrollRef} className="flex-1 overflow-scroll items-center">
       {articles.map((it) => {
         return <ArticleItem key={it.id} article={it} />
       })}
