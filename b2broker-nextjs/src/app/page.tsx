@@ -2,11 +2,13 @@ import { FC } from 'react'
 
 import Link from 'next/link'
 
+import clsx from 'clsx'
+
 import { getArticles } from '@/server-api'
-import { ArticleItem } from '@/components'
 import { PAGE_LENGTH } from '@/constants'
 import type { NextPageProps } from '@/types'
-import clsx from 'clsx'
+
+import { Articles } from './articles'
 
 const fetchArticles = async (page: number) => {
   const res = await getArticles(page)
@@ -21,11 +23,11 @@ const HomePage: FC<NextPageProps> = async ({ searchParams }) => {
 
   return (
     <div className="flex flex-col flex-1 justify-between py-5 h-full">
-      <main className="flex-1 overflow-scroll">
-        {data.map((article) => {
-          return <ArticleItem key={article.id} article={article} />
-        })}
-      </main>
+      <Articles
+        initialPage={pageIndex}
+        articles={data}
+        pagesAmount={pagesAmount}
+      />
       <div className="flex flex-row gap-1.5 py-3 px-4">
         Pagination
         {new Array(pagesAmount).fill(0).map((_, index) => {

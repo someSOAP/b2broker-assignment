@@ -6,7 +6,7 @@ export const getArticleComments = (
   articleId: number,
   params: Partial<GetCommentsByArticleProps> = {},
 ) => {
-  return clientApi.get<StrapiResponse<CommentType[]>>('/article/comments', {
+  return clientApi.get<StrapiResponse<CommentType[]>>('/api/comments', {
     params: {
       id: articleId,
       page: params.page || 1,
