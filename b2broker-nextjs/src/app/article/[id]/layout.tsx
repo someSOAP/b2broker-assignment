@@ -3,5 +3,5 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  return <div className="overflow-scroll">{children}</div>
+  return <div className="overflow-scroll py-5">{children}</div>
 }

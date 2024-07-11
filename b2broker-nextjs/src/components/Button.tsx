@@ -12,7 +12,7 @@ export const Button: FC<ButtonProps> = ({ className, ...props }) => {
       {...props}
       className={clsx(
         'middle none center rounded-lg',
-        'bg-blue-500 py-3 px-6',
+        'bg-green-500 py-3 px-6',
         'font-sans text-xs font-bold uppercase text-white',
         'shadow-md shadow-blue-500/20 transition-all',
         'hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85]',

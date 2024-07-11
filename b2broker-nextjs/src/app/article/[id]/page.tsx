@@ -32,16 +32,29 @@ const ArticlePage: FC<ArticlePageProps> = async (props) => {
   const article = await fetchArticle(articleId)
   const { title, image, body } = article.attributes
 
+  const imgAlt =
+    image?.data.attributes.alternativeText ?? image?.data.attributes.name
+
   return (
-    <main>
-      <h1>{title}</h1>
-      {image && <img src={getImageUrl(image.data)} alt="" />}
-      {body.map((paragraph, index) => {
-        return (
-          <p key={index}>{paragraph.children.map((child) => child.text)}</p>
-        )
-      })}
-      <DynamicComments articleId={articleId} />
+    <main className="flex flex-col max max-w-screen-md m-auto">
+      <h1 className="text-4xl font-semibold my-2 px-2 sm:px-4">{title}</h1>
+      {image && (
+        <img
+          className="max-h-[50vh] sm:max-h-[40vh] w-full object-cover sm:px-4"
+          src={getImageUrl(image.data)}
+          alt={imgAlt}
+        />
+      )}
+      <div className="px-4 pt-4">
+        {body.map((paragraph, index) => {
+          return (
+            <p className="pb-4 text-gray-800 text-justify" key={index}>
+              {paragraph.children.map((child) => child.text)}
+            </p>
+          )
+        })}
+        <DynamicComments articleId={articleId} />
+      </div>
     </main>
   )
 }
