@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <header className="bg-gray-500">
+        <header className="bg-gray-500 p-6 text-xl font-medium">
           <Link href="/">B2B Broker</Link>
         </header>
         {children}

@@ -20,8 +20,8 @@ export const useScrollBottom = ({ ref, onScroll }: UseScrollBottomProps) => {
       }
 
       const isBottomReached =
-        scrollElement.scrollTop + scrollElement.clientHeight ===
-        scrollElement.scrollHeight
+        scrollElement.scrollTop + scrollElement.clientHeight >
+        scrollElement.scrollHeight * 0.85
 
       if (!isBottomReached) {
         return

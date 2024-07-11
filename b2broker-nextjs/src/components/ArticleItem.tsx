@@ -18,22 +18,20 @@ export const ArticleItem: FC<ArticleItemProps> = ({ article }) => {
   return (
     <Link
       href={href}
-      className="overflow-hidden flex-1 my-10 flex max-h-40 max-w-3xl flex-row rounded-xl bg-white bg-clip-border text-gray-700 shadow-md m-auto"
+      className="max-h-[60vh] overflow-hidden mb-5 flex flex-col flex-1 md:max-h-[30vh] xl:max-h-[20vh] md:flex-row max-w-screen-md bg-white bg-clip-border text-gray-700 shadow-md m-auto"
     >
       {imageAttr && (
-        <div className="relative m-0 w-1/5 shrink-0 overflow-hidden rounded-xl rounded-r-none bg-white bg-clip-border text-gray-700">
-          <img
-            src={getImageUrl(imageData, 'small')}
-            alt={imageAttr.alternativeText ?? imageAttr.name}
-            className="h-full w-full object-cover"
-          />
-        </div>
+        <img
+          src={getImageUrl(imageData)}
+          alt={imageAttr.alternativeText ?? imageAttr.name}
+          className="object-cover object-center overflow-hidden md:w-2/5 md:h-full"
+        />
       )}
-      <div className="p-3 overflow-hidden">
+      <div className="flex-1 p-3 flex flex-col border-b-4 md:border-t-4 md:border-y-4 border-gray-300 border-solid">
         <h4 className="mb-2 block font-sans text-2xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
           {article.attributes.title}
         </h4>
-        <p className="mb-8 block font-sans text-base font-normal leading-relaxed text-gray-700 antialiased overflow-ellipsis">
+        <p className="line-clamp-4 flex-1 mb-8 font-sans text-base font-normal leading-relaxed text-gray-400 text-ellipsis overflow-hidden">
           {article.attributes.body[0].children[0].text}
         </p>
       </div>
