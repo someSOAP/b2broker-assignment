@@ -5,7 +5,9 @@ import { getArticleComments } from '@/client-api'
 
 import type { CommentType } from '@/types'
 
-import AddComment from './addcomment'
+import { CommentInput } from '@/components'
+
+import { addComment } from './actions'
 
 interface CommentsProps {
   articleId: number
@@ -86,10 +88,15 @@ const CommentsSlot: FC<CommentsProps> = ({ articleId }) => {
           )
         })}
       </div>
-      <AddComment
+      <CommentInput
+        isDisabled={isLoading}
         key="add-comment"
-        onPosted={updateComments}
-        articleId={articleId}
+        onPostComment={async (text) => {
+          const formData = new FormData()
+          formData.set('text', text)
+          await addComment(articleId, formData)
+          updateComments()
+        }}
       />
     </div>
   )

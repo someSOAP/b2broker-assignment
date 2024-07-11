@@ -1,4 +1,9 @@
-import React, { DetailedHTMLProps, FC } from 'react'
+import React, {
+  DetailedHTMLProps,
+  FC,
+  forwardRef,
+  ForwardRefRenderFunction,
+} from 'react'
 import clsx from 'clsx'
 
 export type InputProps = DetailedHTMLProps<
@@ -6,9 +11,13 @@ export type InputProps = DetailedHTMLProps<
   HTMLInputElement
 >
 
-export const Input: FC<InputProps> = ({ className, ...props }) => {
+const InputRenderFunction: ForwardRefRenderFunction<
+  HTMLInputElement,
+  InputProps
+> = ({ className, ...props }, ref) => {
   return (
     <input
+      ref={ref}
       {...props}
       className={clsx(
         'bg-gray-100 border-gray-300 border-2',
@@ -19,5 +28,7 @@ export const Input: FC<InputProps> = ({ className, ...props }) => {
     />
   )
 }
+
+export const Input = forwardRef(InputRenderFunction)
 
 export default Input
