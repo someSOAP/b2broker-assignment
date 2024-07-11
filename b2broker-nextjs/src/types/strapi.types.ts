@@ -1,6 +1,9 @@
 export interface StrapiEntity<Attributes extends object> {
   id: number
-  attributes: Attributes
+  attributes: Attributes & StrapiEntityDefaultAttributes
+}
+
+interface StrapiEntityDefaultAttributes {
   createdAt: string
   publishedAt: string
   updatedAt: string

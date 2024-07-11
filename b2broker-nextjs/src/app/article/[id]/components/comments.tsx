@@ -2,10 +2,8 @@
 import React, { FC, useEffect, useRef, useState } from 'react'
 
 import { getArticleComments } from '@/client-api'
-
+import { CommentInput, Comment } from '@/components'
 import type { CommentType } from '@/types'
-
-import { CommentInput } from '@/components'
 
 import { addComment } from './actions'
 
@@ -72,6 +70,14 @@ const CommentsSlot: FC<CommentsProps> = ({ articleId }) => {
       ignore = true
     }
   }, [])
+
+  const handlePostComment = async (text: string) => {
+    const formData = new FormData()
+    formData.set('text', text)
+    await addComment(articleId, formData)
+    updateComments()
+  }
+
   return (
     <div>
       {!isEndReached && (
@@ -81,23 +87,16 @@ const CommentsSlot: FC<CommentsProps> = ({ articleId }) => {
       )}
       <div key="comments-wrapper" className="flex flex-col-reverse ">
         {comments.map((it, index) => {
-          return (
-            <div key={it.id}>
-              {index + 1}) {it.attributes.text}
-            </div>
-          )
+          return <Comment comment={it} />
         })}
       </div>
-      <CommentInput
-        isDisabled={isLoading}
-        key="add-comment"
-        onPostComment={async (text) => {
-          const formData = new FormData()
-          formData.set('text', text)
-          await addComment(articleId, formData)
-          updateComments()
-        }}
-      />
+      <div className="px-4">
+        <CommentInput
+          isDisabled={isLoading}
+          key="add-comment"
+          onPostComment={handlePostComment}
+        />
+      </div>
     </div>
   )
 }

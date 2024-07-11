@@ -36,25 +36,25 @@ const ArticlePage: FC<ArticlePageProps> = async (props) => {
     image?.data.attributes.alternativeText ?? image?.data.attributes.name
 
   return (
-    <main className="flex flex-col max max-w-screen-md m-auto">
+    <main className="flex flex-col max max-w-screen-md m-auto bg-white py-5">
       <h1 className="text-4xl font-semibold my-2 px-2 sm:px-4">{title}</h1>
       {image && (
         <img
-          className="max-h-[50vh] sm:max-h-[40vh] w-full object-cover sm:px-4"
+          className="max-h-[50vh] sm:max-h-[40vh] w-full object-cover mb-6"
           src={getImageUrl(image.data)}
           alt={imgAlt}
         />
       )}
-      <div className="px-4 pt-4">
-        {body.map((paragraph, index) => {
-          return (
-            <p className="pb-4 text-gray-800 text-justify" key={index}>
-              {paragraph.children.map((child) => child.text)}
-            </p>
-          )
-        })}
-        <DynamicComments articleId={articleId} />
-      </div>
+
+      {body.map((paragraph, index) => {
+        return (
+          <p className="px-4 pb-4 text-gray-800 text-justify" key={index}>
+            {paragraph.children.map((child) => child.text)}
+          </p>
+        )
+      })}
+
+      <DynamicComments articleId={articleId} />
     </main>
   )
 }

@@ -1,4 +1,5 @@
 export * from './ArticleItem'
 export * from './Button'
+export * from './Comment'
 export * from './CommentInput'
 export * from './Input'
