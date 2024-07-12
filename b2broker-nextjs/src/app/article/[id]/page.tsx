@@ -1,4 +1,5 @@
 import { FC } from 'react'
+import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import dynamic from 'next/dynamic'
 import { AxiosError } from 'axios'
@@ -7,6 +8,8 @@ import { Image } from '@/components'
 import { getOneArticle } from '@/strapi-api'
 
 import type { NextPageProps } from '@/types'
+
+type ArticlePageProps = NextPageProps<'id' | 'wow'>
 
 const DynamicComments = dynamic(() => import('./comments'), {
   ssr: false,
@@ -25,10 +28,26 @@ const fetchArticle = async (id: number) => {
   }
 }
 
-type ArticlePageProps = NextPageProps<'id' | 'wow'>
+export async function generateMetadata({
+  params,
+}: ArticlePageProps): Promise<Metadata> {
+  const id = Number(params.id)
 
-const ArticlePage: FC<ArticlePageProps> = async (props) => {
-  const articleId = Number(props.params.id)
+  try {
+    const res = await getOneArticle(id)
+    const article = res.data.data
+    return {
+      title: article.attributes.title,
+    }
+  } catch (err) {
+    return {
+      title: 'Article',
+    }
+  }
+}
+
+const ArticlePage: FC<ArticlePageProps> = async ({ params }) => {
+  const articleId = Number(params.id)
   const article = await fetchArticle(articleId)
   const { title, image, body } = article.attributes
 
