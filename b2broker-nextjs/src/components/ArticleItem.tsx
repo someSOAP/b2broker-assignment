@@ -17,13 +17,10 @@ export const ArticleItem: FC<ArticleItemProps> = ({ article }) => {
   const imageAttr = imageData?.attributes
 
   return (
-    <article>
-      <Link
-        href={href}
-        className="max-h-[40vh] overflow-hidden mb-5 flex flex-col sm:flex-row  flex-1 sm:max-h-[30vh] xl:max-h-[20vh] max-w-screen-md bg-white bg-clip-border text-gray-700 shadow-md m-auto"
-      >
+    <article className="max-h-fit overflow-hidden mb-5 sm:max-h-[30vh] xl:max-h-[20vh] max-w-screen-md bg-white bg-clip-border text-gray-700 shadow-md m-auto">
+      <Link href={href} className="sm:flex flex-row flex-1 ">
         {imageAttr && (
-          <div className="overflow-hidden sm:w-2/5 sm:h-full">
+          <div className="overflow-hidden sm:w-2/5 h-[200px] sm:min-h-full">
             <Image
               imageData={imageData}
               className="object-cover object-center w-full"

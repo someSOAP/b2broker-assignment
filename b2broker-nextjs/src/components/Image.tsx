@@ -1,6 +1,7 @@
 import React, { FC } from 'react'
 import type { ImageData, ImageSize } from '@/types'
 import { getImageUrl } from '@/utils'
+import clsx from 'clsx'
 
 export interface ImageProps {
   imageData: ImageData
@@ -24,7 +25,10 @@ export const Image: FC<ImageProps> = ({ imageData, maxSize, className }) => {
       />
       <img
         loading="lazy"
-        className={className}
+        className={clsx(
+          className,
+          'bg-gradient-to-r from-gray-400 to-gray-200',
+        )}
         src={getImageUrl(imageData, maxSize)}
         alt={imgAlt}
       />
