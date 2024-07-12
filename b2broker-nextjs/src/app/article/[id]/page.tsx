@@ -5,11 +5,10 @@ import { AxiosError } from 'axios'
 
 import { Image } from '@/components'
 import { getOneArticle } from '@/strapi-api'
-import { getImageUrl } from '@/utils'
 
 import type { NextPageProps } from '@/types'
 
-const DynamicComments = dynamic(() => import('./components/comments'), {
+const DynamicComments = dynamic(() => import('./comments'), {
   ssr: false,
 })
 
