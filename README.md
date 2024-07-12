@@ -11,6 +11,7 @@ Install the dependencies from the root catalog
 `yarn install` and then run `yarn dev` to launch both nextjs and strapi projects.
 You don't need to import any data to strapi project and generating any API keys, all data was commited to this repo,
 in order to simplify the process of running and testing this project.  
+Strapi might require you to use recent LTS version of Node.js, be careful. 
 
 ## Strapi Admin credentials
 Email: `test@admin.com`\
