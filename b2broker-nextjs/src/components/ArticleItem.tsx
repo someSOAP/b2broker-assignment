@@ -2,8 +2,9 @@ import React, { FC } from 'react'
 
 import Link from 'next/link'
 
+import { Image } from './Image'
+
 import { ArticleType } from '@/types'
-import { getImageUrl } from '@/utils'
 
 export interface ArticleItemProps {
   article: ArticleType
@@ -23,10 +24,10 @@ export const ArticleItem: FC<ArticleItemProps> = ({ article }) => {
       >
         {imageAttr && (
           <div className="overflow-hidden sm:w-2/5 sm:h-full">
-            <img
-              src={getImageUrl(imageData)}
-              alt={imageAttr.alternativeText ?? imageAttr.name}
+            <Image
+              imageData={imageData}
               className="object-cover object-center w-full"
+              maxSize="medium"
             />
           </div>
         )}

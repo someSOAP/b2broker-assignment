@@ -33,14 +33,16 @@ const ArticlePage: FC<ArticlePageProps> = async (props) => {
   const article = await fetchArticle(articleId)
   const { title, image, body } = article.attributes
 
-  const imgAlt =
-    image?.data.attributes.alternativeText ?? image?.data.attributes.name
-
   return (
     <div className="overflow-scroll">
       <article className="flex flex-col max max-w-screen-md m-auto bg-white py-5 my-4">
         <h1 className="text-4xl font-semibold my-2 px-2 sm:px-4">{title}</h1>
-        {image && <Image imageData={image.data} />}
+        {image && (
+          <Image
+            className="h-[50vh] sm:max-h-[40vh] w-full object-cover mb-6"
+            imageData={image.data}
+          />
+        )}
 
         {body.map((paragraph, index) => {
           return (
