@@ -27,7 +27,7 @@ const CommentsSlot: FC<CommentsProps> = ({ articleId }) => {
           onClick={fetchPrevComments}
         >
           <div className="animate-pulse bg-green-500  absolute w-full h-full top-0" />
-          <div className="z-10">Load prev comments</div>
+          <div className="z-10">Load Older Comments</div>
         </button>
       )}
       <div key="comments-wrapper" className="flex flex-col-reverse ">
