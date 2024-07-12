@@ -1,12 +1,22 @@
 import React, { ButtonHTMLAttributes, DetailedHTMLProps, FC } from 'react'
 import clsx from 'clsx'
 
-export type ButtonProps = DetailedHTMLProps<
-  ButtonHTMLAttributes<HTMLButtonElement>,
-  HTMLButtonElement
->
+import { Spinner } from './Spinner'
 
-export const Button: FC<ButtonProps> = ({ className, ...props }) => {
+export interface ButtonProps
+  extends DetailedHTMLProps<
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  > {
+  isLoading?: boolean
+}
+
+export const Button: FC<ButtonProps> = ({
+  className,
+  children,
+  isLoading,
+  ...props
+}) => {
   return (
     <button
       {...props}
@@ -18,10 +28,16 @@ export const Button: FC<ButtonProps> = ({ className, ...props }) => {
         'hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85]',
         'focus:shadow-none active:opacity-[0.85] active:shadow-none',
         'disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none',
+        'relative',
         className,
       )}
-    />
+    >
+      <div className={clsx(isLoading && 'invisible')}>{children}</div>
+      {isLoading && (
+        <div className="h-full w-full absolute top-0 left-0 place-items-center grid">
+          <Spinner />
+        </div>
+      )}
+    </button>
   )
 }
-
-export default Button

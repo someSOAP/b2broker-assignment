@@ -1,7 +1,7 @@
 'use client'
 import React, { FC } from 'react'
 
-import { CommentInput, Comment } from '@/components'
+import { CommentInput, Comment, ButtonFull } from '@/components'
 
 import { useArticleComments } from '@/hooks'
 
@@ -9,7 +9,7 @@ interface CommentsProps {
   articleId: number
 }
 
-const CommentsSlot: FC<CommentsProps> = ({ articleId }) => {
+const Comments: FC<CommentsProps> = ({ articleId }) => {
   const {
     handlePostComment,
     fetchPrevComments,
@@ -21,29 +21,25 @@ const CommentsSlot: FC<CommentsProps> = ({ articleId }) => {
   return (
     <div>
       {!isEndReached && (
-        <button
-          className="relative w-full py-4 grid place-items-center"
+        <ButtonFull
+          isLoading={isLoading}
           key="load-prev"
           onClick={fetchPrevComments}
         >
-          <div className="animate-pulse bg-green-500  absolute w-full h-full top-0" />
-          <div className="z-10">Load Older Comments</div>
-        </button>
+          Load Older Comments
+        </ButtonFull>
       )}
+
       <div key="comments-wrapper" className="flex flex-col-reverse ">
         {comments.map((it) => {
           return <Comment key={it.id} comment={it} />
         })}
       </div>
-      <div className="px-4">
-        <CommentInput
-          isDisabled={isLoading}
-          key="add-comment"
-          onPostComment={handlePostComment}
-        />
+      <div key="add-comment" className="px-4">
+        <CommentInput isLoading={isLoading} onPostComment={handlePostComment} />
       </div>
     </div>
   )
 }
 
-export default CommentsSlot
+export default Comments

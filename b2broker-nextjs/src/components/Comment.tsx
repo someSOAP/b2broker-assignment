@@ -28,5 +28,3 @@ export const Comment: FC<CommentProps> = ({ comment }) => {
     </div>
   )
 }
-
-export default Comment

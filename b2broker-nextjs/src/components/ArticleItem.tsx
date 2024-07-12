@@ -42,5 +42,3 @@ export const ArticleItem: FC<ArticleItemProps> = ({ article }) => {
     </article>
   )
 }
-
-export default ArticleItem

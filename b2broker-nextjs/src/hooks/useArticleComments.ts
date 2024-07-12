@@ -10,16 +10,15 @@ export const useArticleComments = (articleId: number) => {
   const [isLoading, setIsLoading] = useState(false)
   const [isEndReached, setIsEndReached] = useState(false)
 
-  const updateLastComments = () => {
-    getArticleComments(articleId, { idGt: maxId.current }).then((res) => {
-      const newComments = res.data.data
-      if (!newComments.length) {
-        return
-      }
-      const [first] = newComments
-      maxId.current = first.id
-      setComments((prevState) => [...res.data.data, ...prevState])
-    })
+  const updateLastComments = async () => {
+    const res = await getArticleComments(articleId, { idGt: maxId.current })
+    const newComments = res.data.data
+    if (!newComments.length) {
+      return
+    }
+    const [first] = newComments
+    maxId.current = first.id
+    setComments((prevState) => [...res.data.data, ...prevState])
   }
 
   const checkIfEndReached = (data: StrapiResponse<CommentType[]>) => {
@@ -31,26 +30,26 @@ export const useArticleComments = (articleId: number) => {
     )
   }
 
-  const fetchPrevComments = () => {
+  const fetchPrevComments = async () => {
     setIsLoading(true)
-    getArticleComments(articleId, { idLt: minId.current })
-      .then((res) => {
-        const loadedComments = res.data.data
 
-        setIsEndReached(checkIfEndReached(res.data))
+    try {
+      const res = await getArticleComments(articleId, { idLt: minId.current })
+      const loadedComments = res.data.data
 
-        if (!loadedComments.length) {
-          return
-        }
-        const last = loadedComments[loadedComments.length - 1]
-        minId.current = last.id
-        setComments((prevState) => {
-          return [...prevState, ...res.data.data]
-        })
+      setIsEndReached(checkIfEndReached(res.data))
+
+      if (!loadedComments.length) {
+        return
+      }
+      const last = loadedComments[loadedComments.length - 1]
+      minId.current = last.id
+      setComments((prevState) => {
+        return [...prevState, ...res.data.data]
       })
-      .finally(() => {
-        setIsLoading(false)
-      })
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   useEffect(() => {
@@ -85,10 +84,15 @@ export const useArticleComments = (articleId: number) => {
   }, [articleId])
 
   const handlePostComment = async (text: string) => {
+    setIsLoading(true)
     const formData = new FormData()
     formData.set('text', text)
-    await addComment(articleId, formData)
-    updateLastComments()
+    try {
+      await addComment(articleId, formData)
+      await updateLastComments()
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return {

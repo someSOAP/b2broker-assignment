@@ -3,17 +3,18 @@ import React, { FC, KeyboardEventHandler, memo, useRef } from 'react'
 import { Button, Input } from '@/components'
 
 interface CommentInputProps {
-  isDisabled: boolean
+  isLoading: boolean
   onPostComment(text: string): void
 }
 
 const CommentInputDummy: FC<CommentInputProps> = ({
   onPostComment,
-  isDisabled,
+  isLoading,
 }) => {
   const inputRef = useRef<HTMLInputElement>(null)
 
   const handleAddComment = async () => {
+    console.log('AAAA')
     const input = inputRef.current
     if (!input) {
       return
@@ -39,7 +40,12 @@ const CommentInputDummy: FC<CommentInputProps> = ({
   return (
     <div className="flex flex-row gap-5 py-10">
       <Input ref={inputRef} type="text" name="text" onKeyDown={onKeyDown} />
-      <Button onClick={handleAddComment} type="submit" disabled={isDisabled}>
+      <Button
+        isLoading={isLoading}
+        disabled={isLoading}
+        onClick={handleAddComment}
+        type="submit"
+      >
         Post Comment
       </Button>
     </div>
@@ -47,7 +53,5 @@ const CommentInputDummy: FC<CommentInputProps> = ({
 }
 
 export const CommentInput = memo(CommentInputDummy, (prevProps, nextProps) => {
-  return prevProps.isDisabled === nextProps.isDisabled
+  return prevProps.isLoading === nextProps.isLoading
 })
-
-export default CommentInput

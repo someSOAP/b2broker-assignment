@@ -5,6 +5,8 @@ import dynamic from 'next/dynamic'
 import { getOneArticle } from '@/strapi-api'
 import { getImageUrl } from '@/utils'
 
+import { Spinner } from '@/components'
+
 import type { NextPageProps } from '@/types'
 import { AxiosError } from 'axios'
 

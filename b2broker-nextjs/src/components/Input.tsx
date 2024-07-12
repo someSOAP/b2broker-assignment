@@ -30,5 +30,3 @@ const InputRenderFunction: ForwardRefRenderFunction<
 }
 
 export const Input = forwardRef(InputRenderFunction)
-
-export default Input
