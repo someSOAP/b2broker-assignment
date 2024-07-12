@@ -1,11 +1,12 @@
 import Link from 'next/link'
 
-export default function NotFound() {
+import { NotFound } from '@/components'
+
+export default function ArticleNotFound() {
   return (
-    <div>
-      <h2>Not Found</h2>
-      <p>Could not find requested resource</p>
-      <Link href="/">Return Home</Link>
-    </div>
+    <NotFound
+      title="404 - Article is not found "
+      caption="It was deleted or was not created"
+    />
   )
 }
