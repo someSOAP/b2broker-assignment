@@ -1,14 +1,13 @@
 import { FC } from 'react'
 import { notFound } from 'next/navigation'
 import dynamic from 'next/dynamic'
+import { AxiosError } from 'axios'
 
+import { Image } from '@/components'
 import { getOneArticle } from '@/strapi-api'
 import { getImageUrl } from '@/utils'
 
-import { Spinner } from '@/components'
-
 import type { NextPageProps } from '@/types'
-import { AxiosError } from 'axios'
 
 const DynamicComments = dynamic(() => import('./components/comments'), {
   ssr: false,
@@ -41,13 +40,7 @@ const ArticlePage: FC<ArticlePageProps> = async (props) => {
     <div className="overflow-scroll">
       <article className="flex flex-col max max-w-screen-md m-auto bg-white py-5 my-4">
         <h1 className="text-4xl font-semibold my-2 px-2 sm:px-4">{title}</h1>
-        {image && (
-          <img
-            className="max-h-[50vh] sm:max-h-[40vh] w-full object-cover mb-6"
-            src={getImageUrl(image.data)}
-            alt={imgAlt}
-          />
-        )}
+        {image && <Image imageData={image.data} />}
 
         {body.map((paragraph, index) => {
           return (

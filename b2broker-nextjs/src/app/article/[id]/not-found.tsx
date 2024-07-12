@@ -1,5 +1,3 @@
-import Link from 'next/link'
-
 import { NotFound } from '@/components'
 
 export default function ArticleNotFound() {

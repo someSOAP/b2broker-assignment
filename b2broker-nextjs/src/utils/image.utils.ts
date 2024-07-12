@@ -1,5 +1,5 @@
-import { ImageData, ImageSize } from '@/types'
-import { STRAPI_API_URL, STRAPI_URL } from '@/constants'
+import type { ImageData, ImageSize } from '@/types'
+import { STRAPI_URL } from '@/constants'
 
 export const getImageUrl = (image: ImageData, size?: ImageSize) => {
   const imgUrl = size
