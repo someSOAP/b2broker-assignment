@@ -8,5 +8,10 @@
   ],
   "rules": {
     "prettier/prettier": "error"
+  },
+  "settings": {
+    "next": {
+      "rootDir": "./b2broker-nextjs/"
+    }
   }
 }
